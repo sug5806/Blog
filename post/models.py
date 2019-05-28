@@ -8,6 +8,8 @@ class Category(models.Model):
     name = models.CharField(max_length=30)
     slug = models.SlugField(max_length=30, db_index=True, unique=True, allow_unicode=True, blank=True)
 
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='posts')

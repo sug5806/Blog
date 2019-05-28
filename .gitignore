@@ -300,6 +300,7 @@ pyvenv.cfg
 pip-selfcheck.json
 .idea
 venv
-
+django.cert
+django.key
 
 # End of https://www.gitignore.io/api/venv,linux,django,python,pycharm
