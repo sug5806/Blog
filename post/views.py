@@ -7,5 +7,11 @@ from django.views.generic import CreateView, ListView, DetailView, DeleteView, U
 
 class PostCreate(CreateView):
     model = Post
+    fields = ['category', 'title', 'text']
     template_name = 'post/create_post.html'
     success_url = 'post/detail_post.html'
+
+
+class PostList(ListView):
+    model = Post
+    template_name = 'post/list_post.html'
