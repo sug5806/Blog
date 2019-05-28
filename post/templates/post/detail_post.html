@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-
+Detail
 {% endblock %}
 
 
 {% block content %}
 
-{% for object in object_list %}
     {{ object.author }}
-    <a href="{% url 'post:detail' object.id %}"> {{ object.title }}</a>
+    {{ object.title }}
     {{ object.text }}
-{% endfor %}
+
 
 {% endblock %}
