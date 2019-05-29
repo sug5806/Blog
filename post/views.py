@@ -35,7 +35,7 @@ class PostCreate(CreateView):
 class PostList(ListView):
     model = Post
     template_name = 'post/list_post.html'
-    paginate_by = 5
+    paginate_by = 1
 
 
 
