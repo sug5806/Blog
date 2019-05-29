@@ -1,15 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Detail
+    Detail
 {% endblock %}
 
 
 {% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>작성자</th>
+            <th>글 제목</th>
+            <th>작성 날짜</th>
+            <th>수정하기</th>
+        </tr>
+        </thead>
 
-    {{ object.author }}
-    {{ object.title }}
-    {{ object.text }}
-
-
+        <tbody>
+        <tr>
+            <td>{{ object.author }}</td>
+            <td>{{ object.title }}</td>
+            <td>{{ object.text|safe }}</td>
+            <td><a href="{% url 'post:update' object.id %}" class="btn btn-outline-info">U</a></td>
+        </tr>
+        </tbody>
+    </table>
 {% endblock %}
