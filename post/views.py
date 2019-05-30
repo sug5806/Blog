@@ -36,7 +36,6 @@ class PostList(ListView):
     paginate_by = 1
 
 
-
 class PostDetail(DetailView):
     model = Post
     template_name = 'post/detail_post.html'
@@ -47,3 +46,9 @@ class PostUpdate(UpdateView):
     fields = ['category', 'title', 'text']
     template_name = 'post/update_post.html'
     success_url = reverse_lazy('post:list')  # , args=)
+
+class PostDelete(DeleteView):
+    model = Post
+    template_name = 'post/delete_post.html'
+    success_url = '/'
+
