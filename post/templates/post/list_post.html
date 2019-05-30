@@ -6,43 +6,65 @@
 
 
 {% block content %}
-    <table class="table">
-        <thead>
-        <tr>
-            <th>글번호</th>
-            <th>작성자</th>
-            <th>글 제목</th>
-            <th>작성 날짜</th>
-            <th>상세정보</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        {% for object in object_list %}
+    {% if object_list %}
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ object.id }}</td>
-                <td>{{ object.author }}</td>
-                <td>{{ object.title }}</td>
-                <td>{{ object.text|safe }}</td>
-                <td><a href="{% url 'post:detail' object.id %}" class="btn btn-outline-success">Detail</a></td>
-                <td><a href="{% url 'post:delete' object.id %}" class="btn btn-outline-danger">삭제</a></td>
+                <th>글번호</th>
+                <th>작성자</th>
+                <th>글 제목</th>
+                <th>작성 날짜</th>
+                <th>상세정보</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ object.id }}</td>
+                    <td>{{ object.author }}</td>
+                    <td>{{ object.title }}</td>
+                    <td>{{ object.text|safe }}</td>
+                    <td><a href="{% url 'post:detail' object.id %}" class="btn btn-outline-success">D</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        블로그에 글이 없습니다람쥐
+    {% endif %}
 
 
+    {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
 
-<ul class="pagination justify-content-center">
-    {% for page in paginator.page_range %}
-        <a class="page-link btn_get_document" href="{% url 'post:list' %}?page={{ page }}">{{ page }}</a>
-    {% endfor %}
-</ul>
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'post:list' %}?page={{ page_obj.previous_page_number }}">&laquo</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&laquo</a>
+                    </li>
+                {% endif %}
 
+                {% for page in paginator.page_range %}
+                    <a class="page-link btn_get_document" href="{% url 'post:list' %}?page={{ page }}">{{ page }}</a>
+                {% endfor %}
 
-
-
-<br>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'post:list' %}?page{{ page_obj.next_page_number }}">&raquo</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link disable">&raquo</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
 
 
 
@@ -78,15 +100,6 @@
         <a href="">포스트 작성</a>
     </div>
 </form>
-
-
-
-
-
-
-
-
-
 
 
 {% endblock %}
