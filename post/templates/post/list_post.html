@@ -36,8 +36,8 @@
 
 
     {% if is_paginated %}
-        <nav aria-label="Page navigation example align-middle">
-            <ul class="pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
 
                 {% if page_obj.has_previous %}
                     <li class="page-item">
@@ -62,9 +62,44 @@
                         <a class="page-link disable">&raquo</a>
                     </li>
                 {% endif %}
-
             </ul>
         </nav>
     {% endif %}
+
+
+
+<form action="" method="get" class="form-inline my-2 my-lg-0 justify-content-center" id="btn_board_search">
+    <input type="hidden" name="is_ajax" value="">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="author" id="checkName" name="search_type">
+        <label class="form-check-label" for="checkName">
+            작성자
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="text" id="checkArticle" name="search_type" checked>
+        <label class="form-check-label" for="checkArticle">
+            본문
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="title" id="checkTitle" name="search_type" checked>
+        <label class="form-check-label" for="checkTitle">
+            제목
+        </label>
+    </div>
+    <div>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search keywards..." aria-label="Search" name="search_key" id="search_text">
+        <input type="submit" value="Search" class="btn btn-primary">
+    </div>
+
+    <div>
+        <br>
+        <br>
+        <br>
+        <a href="">포스트 작성</a>
+    </div>
+</form>
+
 
 {% endblock %}
