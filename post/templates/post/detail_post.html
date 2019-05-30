@@ -13,6 +13,7 @@
             <th>글 제목</th>
             <th>작성 날짜</th>
             <th>수정하기</th>
+            <th>삭제하기</th>
         </tr>
         </thead>
 
@@ -22,6 +23,7 @@
             <td>{{ object.title }}</td>
             <td>{{ object.text|safe }}</td>
             <td><a href="{% url 'post:update' object.id %}" class="btn btn-outline-info">U</a></td>
+            <td><a href="{% url 'post:delete' object.id %}" class="btn btn-outline-danger">D</a></td>
         </tr>
         </tbody>
     </table>

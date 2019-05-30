@@ -1,20 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}
-Delete Post
+    Delete Post
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col"></div>
-    <div class="col-12 col-xl-8">
-        <div class="alert alert-danger" role="alert">
-            Do you want to delete {{object}}??
-        </div>
-        <form action="" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Delete Ok">
-        </form>
+    <div class="alert alert-danger" role="alert">
+        Do you want to delete {{ object }}??
     </div>
-</div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete Ok">
+    </form>
+
 
 {% endblock %}
