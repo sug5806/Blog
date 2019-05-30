@@ -30,8 +30,6 @@ class PostCreate(CreateView):
 
 
 
-
-
 class PostList(ListView):
     model = Post
     template_name = 'post/list_post.html'
@@ -48,4 +46,4 @@ class PostUpdate(UpdateView):
     model = Post
     fields = ['category', 'title', 'text']
     template_name = 'post/update_post.html'
-    success_url = reverse_lazy('post:detail')
+    success_url = reverse_lazy('post:list')  # , args=)
