@@ -6,9 +6,11 @@
 
 
 {% block content %}
+
     <table class="table">
         <thead>
         <tr>
+            <th>글번호</th>
             <th>작성자</th>
             <th>글 제목</th>
             <th>작성 날짜</th>
@@ -19,9 +21,7 @@
 
         <tbody>
         <tr>
-            <td>{{ object.author }}</td>
-            <td>{{ object.title }}</td>
-            <td>{{ object.text|safe }}</td>
+            {% include 'post/list_post_include/post_body.html' %}
             <td><a href="{% url 'post:update' object.id %}" class="btn btn-outline-info">U</a></td>
             <td><a href="{% url 'post:delete' object.id %}" class="btn btn-outline-danger">D</a></td>
         </tr>
