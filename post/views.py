@@ -52,16 +52,16 @@ def apiView(request):
 
 ########################################################################
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create
 
 ### CBV
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['category', 'title', 'text']
     template_name = 'post/create_post.html'
     success_url = 'post/detail_post.html'
-
 
 
     def form_valid(self, form):
