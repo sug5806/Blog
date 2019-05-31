@@ -8,20 +8,20 @@
 {% block content %}
     {% if object_list %}
         <table class="table">
-<thead>
-<tr>
-    <th>글번호</th>
-    <th>작성자</th>
-    <th>글 제목</th>
-    <th>작성 날짜</th>
-    <th>상세정보</th>
-</tr>
-</thead>
+            <thead>
+            <tr>
+                <th>글번호</th>
+                <th>작성자</th>
+                <th>글 제목</th>
+                <th>작성 날짜</th>
+                <th>상세정보</th>
+            </tr>
+            </thead>
 
             <tbody>
             {% for object in object_list %}
                 <tr>
-            {% include 'post/list_post_include/post_body.html' %}
+                    {% include 'post/list_post_include/post_body.html' %}
                     <td><a href="{% url 'post:detail' object.id %}" class="btn btn-outline-success">D</a></td>
                 </tr>
             {% endfor %}
@@ -32,36 +32,36 @@
     {% endif %}
 
 
-    {% if is_paginated %}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
+        {% if is_paginated %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
 
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="{% url 'post:list' %}?page={{ page_obj.previous_page_number }}">&laquo</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link">&laquo</a>
-                    </li>
-                {% endif %}
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="{% url 'post:list' page_obj.previous_page_number %}">&laquo</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&laquo</a>
+                        </li>
+                    {% endif %}
 
-                {% for page in paginator.page_range %}
-                    <a class="page-link btn_get_document" href="{% url 'post:list' %}?page={{ page }}">{{ page }}</a>
-                {% endfor %}
+                    {% for page in paginator.page_range %}
+                        <a class="page-link btn_get_document" href="?page={{ page }}">{{ page }}</a>
+                    {% endfor %}
 
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="{% url 'post:list' %}?page{{ page_obj.next_page_number }}">&raquo</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link disable">&raquo</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link disable">&raquo</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
 
 
 

@@ -129,10 +129,21 @@ class PostList(ListView):
 
 ### FBV
 
-def postList(request):
-    object_list = Post.objects.all() # CBV : get_queryset이 해준다
+from django.core.paginator import Paginator
 
-    return render(request, 'post/list_post.html', {'object_list': object_list})
+def postList(request):
+    # 페이지 번호 얻기
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(Post.objects.all(), 5, allow_empty_first_page=True)
+    print(page)
+
+    object_list = Post.objects.all() # CBV : get_queryset이 해준다
+    # 페이징 처리
+
+    return render(request, 'post/list_post.html', {
+        'object_list': object_list,
+        'paginator': paginator,
+    })
 
 ################################################################
 
