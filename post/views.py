@@ -118,6 +118,18 @@ class PostList(ListView):
     template_name = 'post/list_post.html'
     paginate_by = 1
 
+    def post(self, *args, **kwargs):
+        queryset = Post.objects.all()
+        search_key = self.request.POST.get('search_key', None)
+        cb_key = self.request.POST.get('search_type', None)
+        print(cb_key)
+        print(search_key)
+        if search_key:
+            queryset = queryset.filter(text__icontains=search_key)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        pass
+
     """
     setup()
     dispatch()
@@ -130,28 +142,40 @@ class PostList(ListView):
 ### FBV
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 def postList(request):
-    # 페이지 번호 얻기
-    page = int(request.GET.get('page', 1))
-    paginator = Paginator(Post.objects.all(), 5, allow_empty_first_page=True)
-    print(page)
 
-    object_list = Post.objects.all() # CBV : get_queryset이 해준다
-    # 페이징 처리
 
 
 
     # 검색기능
     queryset = Post.objects.all()
-    search_key = request.POST.get('search', None)
-    if search_key:
-        queryset = queryset.filter(text__icontains=search_key)
+    search_keyword = request.POST.get('search', request.GET.get('search', None))
+    context_data = {}
 
-    return render(request, 'post/list_post.html', {
-        'object_list': object_list,
-        'paginator': paginator,
-    })
+    if search_keyword:
+        q = Q(text__icontains = search_keyword)
+        q |= Q(title__icontains = search_keyword)
+        queryset = queryset.filter(q)
+        context_data.update({'earch_keyword': search_keyword})
+
+    # 페이지 번호 얻기
+    page = int(request.GET.get('page', 1))
+    object_list = Post.objects.all()  # CBV : get_queryset이 해준다
+
+    # 페이징 처리
+    paginator = Paginator(queryset, 1)
+    page = paginator.page(page)
+    context_data.update({
+                         'object_list': page.object_list,
+                         'paginator': paginator,
+                         'page_obj': page,
+                         'is_paginated': True,
+                         })
+
+
+    return render(request, 'post/list_post.html', {context_data})
 
 ################################################################
 
