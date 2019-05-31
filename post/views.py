@@ -140,6 +140,14 @@ def postList(request):
     object_list = Post.objects.all() # CBV : get_queryset이 해준다
     # 페이징 처리
 
+
+
+    # 검색기능
+    queryset = Post.objects.all()
+    search_key = request.POST.get('search', None)
+    if search_key:
+        queryset = queryset.filter(text__icontains=search_key)
+
     return render(request, 'post/list_post.html', {
         'object_list': object_list,
         'paginator': paginator,

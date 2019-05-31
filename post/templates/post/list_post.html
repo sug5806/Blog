@@ -32,36 +32,36 @@
     {% endif %}
 
 
-        {% if is_paginated %}
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
+    {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
 
-                    {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="{% url 'post:list' page_obj.previous_page_number %}">&laquo</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link">&laquo</a>
-                        </li>
-                    {% endif %}
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'post:list' page_obj.previous_page_number %}">&laquo</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&laquo</a>
+                    </li>
+                {% endif %}
 
-                    {% for page in paginator.page_range %}
-                        <a class="page-link btn_get_document" href="?page={{ page }}">{{ page }}</a>
-                    {% endfor %}
+                {% for page in paginator.page_range %}
+                    <a class="page-link btn_get_document" href="?page={{ page }}">{{ page }}</a>
+                {% endfor %}
 
-                    {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link disable">&raquo</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        {% endif %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link disable">&raquo</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
 
 
 
@@ -85,17 +85,15 @@
                 제목
             </label>
         </div>
-        <div>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search keywards..." aria-label="Search"
-                   name="search_key" id="search_text">
-            <input type="submit" value="Search" class="btn btn-primary">
-        </div>
+
 
         <div>
-            <br>
-            <br>
-            <br>
-            <a href="">포스트 작성</a>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Search keywards..." aria-label="Search"
+                       name="search_key" id="search_text">
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
         </div>
     </form>
 
