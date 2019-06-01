@@ -70,7 +70,7 @@
 
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="{% url 'post:post_list' page_obj.previous_page_number %}{% if search_keyword %}?search={{ search_keyword }}{% endif %}">&laquo</a>
+                        <a class="page-link" href="{% url 'post:list' page_obj.previous_page_number %}{% if search_keyword %}?search={{ search_keyword }}{% endif %}">&laquo</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -79,12 +79,12 @@
                 {% endif %}
 
                 {% for page in paginator.page_range %}
-                    <a class="page-link btn_get_document" href="?page={{ page }}">{{ page }}</a>
+                    <a class="page-link btn_get_document" href="{% url 'post:list' page %}{% if search_keyword %}?search={{ search_keyword }}{% endif %}">{{ page }}</a>
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="{% url 'post:post_list' page_obj.next_page_number %}{% if search_keyword %}?search={{ search_keyword }}{% endif %}">&raquo</a>
+                        <a class="page-link" href="{% url 'post:list' page_obj.next_page_number %}{% if search_keyword %}?search={{ search_keyword }}{% endif %}">&raquo</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -100,31 +100,31 @@
 
     <form action="" method="get" class="form-inline my-2 my-lg-0 justify-content-center" id="btn_board_search">
         <input type="hidden" name="is_ajax" value="">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="author" id="checkName" name="search_type">
-            <label class="form-check-label" for="checkName">
-                작성자
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="text" id="checkArticle" name="search_type">
-            <label class="form-check-label" for="checkArticle">
-                본문
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="title" id="checkTitle" name="search_type">
-            <label class="form-check-label" for="checkTitle">
-                제목
-            </label>
-        </div>
 
+{#        <div class="form-check">#}
+{#            <input class="form-check-input" type="checkbox" value="author" id="checkName" name="search_type">#}
+{#            <label class="form-check-label" for="checkName">#}
+{#                작성자#}
+{#            </label>#}
+{#        </div>#}
+{#        <div class="form-check">#}
+{#            <input class="form-check-input" type="checkbox" value="text" id="checkArticle" name="search_type">#}
+{#            <label class="form-check-label" for="checkArticle">#}
+{#                본문#}
+{#            </label>#}
+{#        </div>#}
+{#        <div class="form-check">#}
+{#            <input class="form-check-input" type="checkbox" value="title" id="checkTitle" name="search_type">#}
+{#            <label class="form-check-label" for="checkTitle">#}
+{#                제목#}
+{#            </label>#}
+{#        </div>#}
 
         <div>
-            <form action="" method="post">
+            <form action="">
                 {% csrf_token %}
                 <input class="form-control mr-sm-2" type="search" placeholder="Search keywards..." aria-label="Search"
-                       name="search_key" id="search_text">
+                       name="search" id="search_text" value="{% if search_keyword %}{{search_keyword}}{%endif%}">
                 <input type="submit" value="Search" class="btn btn-primary">
             </form>
         </div>

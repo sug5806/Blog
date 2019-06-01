@@ -116,19 +116,21 @@ def postCreate(request):
 class PostList(ListView):
     model = Post
     template_name = 'post/list_post.html'
-    paginate_by = 1
+    paginate_by = 5
 
-    def post(self, *args, **kwargs):
-        queryset = Post.objects.all()
-        search_key = self.request.POST.get('search_key', None)
-        cb_key = self.request.POST.get('search_type', None)
-        print(cb_key)
-        print(search_key)
-        if search_key:
-            queryset = queryset.filter(text__icontains=search_key)
+    def get(self, request, *args, **kwargs):
+        # 전체 리스트를 가져옴
+        self.object_list = self.get_queryset()
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        pass
+        # GET요청으로 들어온
+        search_keyword = request.GET.get('search', None)
+        if search_keyword:
+            self.object_list = Post.objects.filter(title__icontains=search_keyword)
+
+        context = self.get_context_data()
+        context['search_keyword'] = search_keyword
+        return self.render_to_response(context)
+
 
     """
     setup()
@@ -144,25 +146,25 @@ class PostList(ListView):
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-def postList(request):
-
-
-
-
+def postList(request, page):
     # 검색기능
     queryset = Post.objects.all()
     search_keyword = request.POST.get('search', request.GET.get('search', None))
     context_data = {}
+    print(search_keyword)
+    print("함수형 ")
 
     if search_keyword:
         q = Q(text__icontains = search_keyword)
         q |= Q(title__icontains = search_keyword)
         queryset = queryset.filter(q)
-        context_data.update({'earch_keyword': search_keyword})
+        context_data.update({'search_keyword': search_keyword})
 
     # 페이지 번호 얻기
-    page = int(request.GET.get('page', 1))
-    object_list = Post.objects.all()  # CBV : get_queryset이 해준다
+    page = page if page else 1
+    page = int(page)
+
+    # object_list = Post.objects.all()  # CBV : get_queryset이 해준다
 
     # 페이징 처리
     paginator = Paginator(queryset, 1)
@@ -175,7 +177,7 @@ def postList(request):
                          })
 
 
-    return render(request, 'post/list_post.html', {context_data})
+    return render(request, 'post/list_post.html', context_data)
 
 ################################################################
 
