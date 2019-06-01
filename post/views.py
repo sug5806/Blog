@@ -116,20 +116,40 @@ def postCreate(request):
 class PostList(ListView):
     model = Post
     template_name = 'post/list_post.html'
-    paginate_by = 5
+    paginate_by = 1
 
-    def get(self, request, *args, **kwargs):
-        # 전체 리스트를 가져옴
-        self.object_list = self.get_queryset()
+    # def get(self, request, *args, **kwargs):
+    #     # 전체 리스트를 가져옴
+    #     self.object_list = self.get_queryset()
+    #
+    #     # GET요청으로 들어온 name이 search인 태그의 내용을 가져옴
+    #     search_keyword = request.GET.get('search', None)
+    #
+    #     # 검색어가 있으면 필터를 걸어 해당하는 레코드를 가져옴
+    #     if search_keyword:
+    #         self.object_list = Post.objects.filter(title__icontains=search_keyword)
+    #
+    #     # 템플릿에 전달할 컨텍스트(키워드)를 가져옴
+    #     context = self.get_context_data(object_list=self.object_list, search_keyword=search_keyword)
+    #     return self.render_to_response(context)
 
-        # GET요청으로 들어온
-        search_keyword = request.GET.get('search', None)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        object_list = self.get_queryset()
+        search_keyword = self.request.GET.get('search', None)
+
         if search_keyword:
-            self.object_list = Post.objects.filter(title__icontains=search_keyword)
+            object_list = Post.objects.filter(title__icontains=search_keyword)
 
-        context = self.get_context_data()
-        context['search_keyword'] = search_keyword
-        return self.render_to_response(context)
+        context = super().get_context_data(object_list=object_list, search_keyword=search_keyword)
+
+        return context
+
+
+
+
+
+
 
 
     """
